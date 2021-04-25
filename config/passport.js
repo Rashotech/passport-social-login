@@ -69,6 +69,7 @@ module.exports = (passport) => {
         callbackURL: process.env.GOOGLE_CALLBACK_URL
     },
     async function(profile, done) {
+        console.log(profile)
         const { sub, email, given_name, family_name } = profile._json;
         User.findOne({ sid: sub }, async function (err, user) {
             if(user === null) {
