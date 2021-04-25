@@ -35,7 +35,7 @@ module.exports = (passport) => {
         scope: [ "email" ],
         profileFields: ['id', 'displayName', 'name', 'photos', 'email']
       },
-      async function(profile, done) {
+      async function(accessToken, refreshToken, profile, done) {
         const { id, email, first_name, last_name } = profile._json;
         User.findOne({ sid: id }, async function (err, user) {
             if(user === null) {
@@ -68,8 +68,7 @@ module.exports = (passport) => {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_CALLBACK_URL
     },
-    async function(profile, done) {
-        console.log(profile)
+    async function(accessToken, refreshToken, profile, done) {
         const { sub, email, given_name, family_name } = profile._json;
         User.findOne({ sid: sub }, async function (err, user) {
             if(user === null) {
